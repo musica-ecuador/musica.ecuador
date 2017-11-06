@@ -4,9 +4,7 @@ from spotipy.oauth2 import SpotifyClientCredentials
 
 
 # arguments to be passed to build function
-#PARSE_SERVER_HTTS = 1  #1 = is https 0 = http
-#PARSE_SERVER = "parse.buddy.com:443" #"localhost:1337"
-#PARSE_APPLICATION_ID = "1fbb8e95-3d34-462a-9a49-155e86716402" #123
+
 
 PARSE_SERVER_HTTS = 0  #1 = is https 0 = http
 PARSE_SERVER =  "localhost:1337"
