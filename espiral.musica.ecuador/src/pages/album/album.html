@@ -1,0 +1,41 @@
+<!--
+  Generated template for the AlbumPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title> {{ artistName }} </ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <ion-card>
+    <ion-card-header *ngIf="artist">{{artist.name}}</ion-card-header>
+    <ion-thumbnail item-start *ngIf="artist?.images">
+      <img src="{{artist.images && artist.images[1].url}}">
+    </ion-thumbnail>
+
+    <ion-list>
+      <ion-list-header>
+        Álbumes
+      </ion-list-header>
+      
+      <button  ion-item *ngFor="let item of albums" (click)="showTrack(item.objectId,item.name)">
+        <ion-thumbnail item-start *ngIf="item?.images">
+          <img src="{{item.images && item.images[2].url}}">
+        </ion-thumbnail>
+        <h2> {{ item.name }}</h2>
+        <p>{{ item.album_type }} - Total Canciones/Descripcion</p>
+        <ion-icon name="play" item-end></ion-icon>
+      </button>
+
+
+    </ion-list>
+  </ion-card>
+
+</ion-content>

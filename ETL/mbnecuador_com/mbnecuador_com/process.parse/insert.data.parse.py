@@ -6,7 +6,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 import sys
-sys.path.append('../../../parseplatform')
+sys.path.append('../')
 
 import parseplatform.functions as parse
 
@@ -18,8 +18,12 @@ def getData():
 
 def main():
     
+    logging.basicConfig(filename='parse.log', level=logging.DEBUG)
+
     data = getData()
 
+    logger.info('Procesar %d registros' % len(data))
+    
     for item in data:
         artist = {}
         artist['type'] = "artist"
@@ -47,7 +51,7 @@ def main():
         result,error  = parse.insertParse('Artist',artist) 
         
         if error is not None:
-           logger.info('Error al registrar: %s. Mensaje: %s', item['nombre'],error) 
+           logger.error('Error al registrar: %s. Mensaje: %s', item['nombre'],error) 
         else:
            logger.info('Registro insertado: %s. ObjectId: %s', item['nombre'],result['objectId']) 
 

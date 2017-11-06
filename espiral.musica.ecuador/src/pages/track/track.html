@@ -1,0 +1,35 @@
+<!--
+  Generated template for the TrackPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title> {{ albumName }}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-card>
+    <ion-card-header  *ngIf="trackPlaying">
+        {{ trackPlaying.name }}
+    </ion-card-header>
+    
+    <audio #playeraudio controls controlsList="nodownload">
+        Your browser does not support the audio element.
+    </audio>
+
+    <ion-list>
+           <button ion-item *ngFor="let item of tracks;let i=index" (click)="playTrack(item.preview,i)">
+             {{ item.name }}
+             <ion-badge item-end>{{ item.duration_ms | durationAudio }}</ion-badge>      
+           </button>
+       
+         </ion-list>
+  </ion-card>
+
+</ion-content>

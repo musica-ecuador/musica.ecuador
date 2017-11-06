@@ -16,11 +16,16 @@ class MbnecuadorSpider(scrapy.Spider):
             #delete whitespace and upper
             nombre  = re.sub(' +',' ',nombre.strip().upper())
 
+            categoria  = artista.css('footer div.cat a::text').extract_first()
+            
+            if categoria is not None:
+                categoria = re.sub(' +',' ',categoria.strip().upper())
+
             yield {
                 
                 'nombre': nombre,
                 'url': artista.css('footer h2 a::attr(href)').extract_first(),
-                'categoria': artista.css('footer div.cat a::text').extract_first(),
+                'categoria': categoria,
                 'categoria_url': artista.css('footer div.cat a::attr(href)').extract_first(),
                 'imagen_url': artista.css('img::attr(src)').extract_first(),
                 'duplicado':0

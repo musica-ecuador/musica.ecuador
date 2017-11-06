@@ -36,3 +36,5 @@
     python.exe mbnecuador_com\process.parse\update.genres.parse.py
 
    Este proceso actualiza los generos obtenidos desde mbecuador
+
+5. TODO: PROCESAR DUPLICADOS (NOMBRES)

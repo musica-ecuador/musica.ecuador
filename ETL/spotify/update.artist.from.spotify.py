@@ -47,6 +47,8 @@ def getSpotifyInfo(spotifyAPI,name):
 
 def main():
 
+    logging.basicConfig(filename='spotify.log', level=logging.DEBUG)
+
     spotifyAPI = spotipy.Spotify(client_credentials_manager=CONFIG.spotify_client_credentials_manager)
 
     data,error = getData() 
@@ -54,11 +56,14 @@ def main():
  
     if data is not None and len(data['results'])>0:
 
+        logger.info('Procesar %d registros' % len(data))
+        
         for item in data['results']:
             
-
             objectId = item['objectId']
             nameArtist = item['name']
+
+            #TODO: Add url spotify field external_urls
 
             spotifyData =  getSpotifyInfo(spotifyAPI,nameArtist)
 
@@ -67,12 +72,12 @@ def main():
                 resultUpdate,error = parse.updateParseField("Artist",objectId,"spotify",spotifyData)
                 
                 if error is not None:
-                    print("Existe un error %s, para el artista %s" % (error,nameArtist))
+                    logger.error("Existe un error %s, para el artista %s" % (error,nameArtist))
                 else:
-                    print("Actualizado artista %s, con informacion spotify" % (nameArtist))
+                    logger.info("Actualizado artista %s, con informacion spotify" % (nameArtist))
           
             else:
-                print("No existe informacion de spotify. %s" % (nameArtist))
+                logger.info("No existe informacion de spotify. %s. o existe mas de una coindicencia en el nombre" % (nameArtist))
             
     
 if __name__ == "__main__":

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<audio id="player" controls>
+  <source src="https://p.scdn.co/mp3-preview/9f6f2f5b69fe94a855b5c0f03140ac1d393c2ee0?cid=efb1585a452d4930af31ca24ee893910" type="audio/mpeg">
+Your browser does not support the audio element.
+</audio>
+
+
+ 
+
+<script>
+    var player = document.getElementById("player");
+    player.onended = function() {
+        alert("The audio has ended");
+    };
+</script>
+
+</body>
+</html>

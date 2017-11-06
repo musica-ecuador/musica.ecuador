@@ -1,0 +1,99 @@
+import { Injectable } from '@angular/core';
+import { Http } from '@angular/http';
+import 'rxjs/add/operator/map';
+ 
+
+/*
+  Generated class for the YoutubeServiceProvider provider.
+
+  See https://angular.io/guide/dependency-injection for more info on providers
+  and Angular DI.
+*/
+@Injectable()
+export class YoutubeService {
+  youtube: any = {
+    ready: false,
+    player: null,
+    playerId: null,
+    videoId: null,
+    videoTitle: null,
+    playerHeight: '100%',
+    playerWidth: '100%'
+  }
+
+  constructor () {
+      this.setupPlayer();
+  }
+
+  bindPlayer(elementId): void {
+    this.youtube.playerId = elementId;
+  };
+
+  createPlayer(): void {
+    console.log('Youtube createPlayer');
+    return new window.YT.Player(this.youtube.playerId, {
+      height: this.youtube.playerHeight,
+      width: this.youtube.playerWidth,
+      playerVars: {
+        rel: 0,
+        showinfo: 0
+      },
+      events: {
+        'onReady': this.onPlayerReady
+      }
+    });
+  }
+
+  loadPlayer(): void {
+    if (this.youtube.ready && this.youtube.playerId) {
+      if (this.youtube.player) {
+      this.youtube.player.destroy();
+      }
+      this.youtube.player = this.createPlayer();
+    }
+  }
+
+  setupPlayer () {
+    // in production mode, the youtube iframe api script tag is loaded
+    // before the bundle.js, so the 'onYouTubeIfarmeAPIReady' has
+    // already been triggered
+    // TODO: handle this in build or in nicer in code
+    console.log ("Running Setup Player");
+    window['onYouTubeIframeAPIReady'] = () => {
+      if (window['YT']) {
+         console.log('Youtube API is ready');
+         this.youtube.ready = true;
+         this.bindPlayer('placeholder');
+         this.loadPlayer();
+      }
+    };
+    if (window.YT && window.YT.Player) {
+        console.log('Youtube API is ready');
+         this.youtube.ready = true;
+         this.bindPlayer('placeholder');
+         this.loadPlayer();
+    }
+  }
+
+  // 4. The API will call this function when the video player is ready.
+  onPlayerReady(event) {
+    //event.target.playVideo();
+    console.log('onPlayerReady...');
+    this.youtube.player.loadVideoById(this.youtube.videoId);
+  }
+
+  launchPlayer(id, title):void {
+    console.log('launchPlayer');
+    
+    this.youtube.videoId = id;
+    this.youtube.videoTitle = title;
+
+    console.log( this.youtube.player);
+    /*
+    this.youtube.player.loadVideoById(id);
+    this.youtube.videoId = id;
+    this.youtube.videoTitle = title;
+    return this.youtube;
+    */
+  }
+}
