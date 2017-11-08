@@ -107,3 +107,4 @@ venv.bak/
 #JSA. Personalizado
 #No subir cambios de configuraciones locales
 CONFIG.py
+ETL/CONFIG.py
