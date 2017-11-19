@@ -15,6 +15,8 @@ sys.path.append('../')
 import CONFIG
 
 import parseplatform.functions as parse
+import spotify.functions as spotify_custom
+import app.functions as app
 
 def getData():
 
@@ -28,33 +30,10 @@ def getData():
 
     return result
 
-def spotify_album_tracks(spotifyAPI,album_spotifyId):
-    tracks = []
-    #Invalid limit, cannot be greater than 50
-    results = spotifyAPI.album_tracks(album_spotifyId) #,limit=300)
-    tracks.extend(results['items'])
-    while results['next']:
-        results = sp.next(results)
-        tracks.extend(results['items'])
-    
-    return tracks
+
+ 
 
 
-def MapSpotifyTrack(spotify_item):
-    spotify = {}
-    spotify['id'] = spotify_item['id'] 
-    spotify['uri'] = spotify_item['uri'] 
-
-    #other field
-    return spotify
-
-def MapAlbum(idAlbum):
-    album = {
-                "__type": "Pointer",
-                "className": "Album",
-                "objectId": idAlbum
-            }
-    return album 
 
 def MapArtist(spotify_item, artistsAlbum):
     
@@ -90,38 +69,6 @@ def MapArtist(spotify_item, artistsAlbum):
            return None,error
 
     return artists,None
- 
-def InsertTrack(idAlbum,nameAlbum,artistsAlbum,spotify_tracks):
-    
-    for spotify_item in spotify_tracks:
-
-        track = {}
-        track['type'] = "track"
-        track['origin'] = spotify_item['external_urls']['spotify']
-        track['name'] = spotify_item['name']
-        track['track_number'] = spotify_item['track_number']
-        track['preview'] = spotify_item['preview_url']
-        track['duration_ms'] = spotify_item['duration_ms']
-         
-        #TODO: other field
-    
-        
-        result,error  =  MapArtist(spotify_item,artistsAlbum)
-        if error is not None:
-            logger.info('Error al get artist from app:  Mensaje: %s', error) 
-
-        track['artists']  =  result
-        
-        track['album']  =  MapAlbum(idAlbum)
-        track['spotify'] = MapSpotifyTrack(spotify_item)
-
-        result,error  = parse.insertParse('Track',track) 
-        
-        if result is not None:
-            logger.info('Registro insertado: %s. Result: %s', track['name'],result) 
-        else:
-            logger.info('Error al registrar: %s. Mensaje: %s', track['name'],error) 
-  
 
 def main():
 
@@ -144,11 +91,11 @@ def main():
             artistsAlbum = item['artists']
             spotify_album = item['spotify']
  
-            spotify_tracks =  spotify_album_tracks(spotifyAPI,spotify_album['id'])
+            spotify_tracks =  spotify_custom.get_tracks_album_spotify(spotifyAPI,spotify_album['id'])
 
             logger.info("Insertar track spotify. Album. %s. Track Count %s" % (nameAlbum, len(spotify_tracks)))
             
-            InsertTrack(idAlbum,nameAlbum,artistsAlbum,spotify_tracks)
+            app.InsertTracksFromSpotify(idAlbum,nameAlbum,artistsAlbum,spotify_tracks)
 
     else:
         logger.error("Error a recuperar informacion Albumes %s" % error)

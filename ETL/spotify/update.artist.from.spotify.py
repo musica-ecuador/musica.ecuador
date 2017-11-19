@@ -56,7 +56,7 @@ def main():
  
     if data is not None and len(data['results'])>0:
 
-        logger.info('Procesar %d registros' % len(data))
+        logger.info('Procesar %d registros' % len(data['results']))
         
         for item in data['results']:
             

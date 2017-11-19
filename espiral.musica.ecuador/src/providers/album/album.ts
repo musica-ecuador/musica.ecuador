@@ -9,15 +9,18 @@ import 'rxjs/add/operator/toPromise';
   See https://angular.io/guide/dependency-injection for more info on providers
   and Angular DI.
 */
+
+import {  AppSettings } from "../../app/settings";
+
 @Injectable()
 export class AlbumService {
 
-  url: string = 'http://localhost:1337/parse/classes/Album';
+  url: string = AppSettings.PARSE_SERVER + '/parse/classes/Album';
   private headers: Headers = new Headers();
 
   constructor(public http: Http) {
     this.headers.append('Content-Type', 'application/json');
-    this.headers.append('X-Parse-Application-Id', '123');
+    this.headers.append('X-Parse-Application-Id', AppSettings.PARSE_APPLICATION_ID);
   }
 
 

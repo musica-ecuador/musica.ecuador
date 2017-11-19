@@ -1,8 +1,11 @@
 import { NgModule } from '@angular/core';
 import { DurationAudioPipe } from './duration-audio/duration-audio';
+import { YoutubePipe } from './youtube/youtube';
 @NgModule({
-	declarations: [DurationAudioPipe],
+	declarations: [DurationAudioPipe,
+    YoutubePipe],
 	imports: [],
-	exports: [DurationAudioPipe]
+	exports: [DurationAudioPipe,
+    YoutubePipe]
 })
 export class PipesModule {}

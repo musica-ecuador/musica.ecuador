@@ -1,6 +1,10 @@
 import { Component,OnInit,ViewChild,ElementRef, Renderer2, AfterViewInit } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
+import { LoadingController } from 'ionic-angular';
+
+
+
 import { TrackService } from '../../providers/track/track'
 
 /**
@@ -17,6 +21,7 @@ import { TrackService } from '../../providers/track/track'
 })
 export class TrackPage implements OnInit,AfterViewInit   {
 
+  private loading:any;
 
   @ViewChild('playeraudio') player_audio: ElementRef;
 
@@ -31,13 +36,23 @@ export class TrackPage implements OnInit,AfterViewInit   {
   public trackPlaying : any;
   
  
-  constructor(public navCtrl: NavController, public navParams: NavParams, private renderer: Renderer2, public trackService:TrackService) {
+  constructor(public navCtrl: NavController,
+     public navParams: NavParams, 
+     public loadingCtrl: LoadingController, 
+     private renderer: Renderer2, 
+     public trackService:TrackService) {
     this.albumId = this.navParams.get('albumId');
     this.albumName = this.navParams.get('albumName');
   }
 
 
   ngOnInit(): void {
+    this.loading = this.loadingCtrl.create({
+      content: 'Por favor espere...'
+    });
+
+    this.loading.present();
+
     this.findAll();    
   }
   
@@ -75,6 +90,8 @@ export class TrackPage implements OnInit,AfterViewInit   {
         this.trackPlaying = null;
         this.player_audio.nativeElement.src = "#";
        }
+
+       this.loading.dismissAll();
     });
   }
   
@@ -145,9 +162,6 @@ export class TrackPage implements OnInit,AfterViewInit   {
 
    
   
-
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad TrackPage');
-  }
+ 
 
 }

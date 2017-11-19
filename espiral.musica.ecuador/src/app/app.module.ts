@@ -13,11 +13,13 @@ import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { AboutPage } from '../pages/about/about';
 import { ContactPage } from '../pages/contact/contact';
-import { ListPage } from '../pages/list/list';
+//import { ListPage } from '../pages/list/list';
 import { ArtistPage } from '../pages/Artist/artist';
 import { AlbumPage } from '../pages/album/album'
 import { TrackPage } from '../pages/track/track'
 import { VideoPage } from '../pages/video/video'
+import { YoutubePage } from '../pages/youtube/youtube'
+import { SearchLabPage } from '../pages/search-lab/search-lab'
 
 
 import { ArtistService } from '../providers/artist/artist';
@@ -25,7 +27,13 @@ import { AlbumService } from '../providers/album/album';
 import { TrackService } from '../providers/track/track';
 //import { YoutubeService } from '../providers/youtube/youtube';
 
-import { DurationAudioPipe } from '../pipes/duration-audio/duration-audio'
+import { DurationAudioPipe } from '../pipes/duration-audio/duration-audio';
+import { YoutubePipe } from '../pipes/youtube/youtube';
+
+import { YoutubeService } from '../providers/youtube/youtube';
+import { YoutubeVideoPlayer } from '@ionic-native/youtube-video-player';
+
+ 
 
 @NgModule({
   declarations: [
@@ -33,12 +41,17 @@ import { DurationAudioPipe } from '../pipes/duration-audio/duration-audio'
     HomePage,
     AboutPage,
     ContactPage,
-    ListPage,
+    //ListPage,
     ArtistPage,
     AlbumPage,
     TrackPage,
     VideoPage,
-    DurationAudioPipe
+    YoutubePage,
+    SearchLabPage,
+    
+    DurationAudioPipe,
+    YoutubePipe
+    
   ],
   imports: [
     BrowserModule,
@@ -51,11 +64,13 @@ import { DurationAudioPipe } from '../pipes/duration-audio/duration-audio'
     HomePage,
     AboutPage,
     ContactPage,
-    ListPage,
+    //ListPage,
     ArtistPage,
     AlbumPage,
     TrackPage,
-    VideoPage
+    VideoPage,
+    YoutubePage,
+    SearchLabPage
   ],
   providers: [
     StatusBar,
@@ -64,7 +79,9 @@ import { DurationAudioPipe } from '../pipes/duration-audio/duration-audio'
     ArtistService,
     AlbumService,
     TrackService,
-    //YoutubeService
+    YoutubeService,
+    YoutubeVideoPlayer
+    //{provide: Window, useValue: window}
   ]
 })
 export class AppModule {}

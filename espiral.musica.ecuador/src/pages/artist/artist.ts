@@ -1,5 +1,6 @@
 import { Component,OnInit } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {  NavController, NavParams } from 'ionic-angular';
+import { LoadingController } from 'ionic-angular';
 
 import { AlbumPage } from "../album/album"
 import { ArtistService } from "../../providers/artist/artist";
@@ -11,26 +12,47 @@ import { ArtistService } from "../../providers/artist/artist";
  * Ionic pages and navigation.
  */
 
-@IonicPage()
+//@IonicPage()
 @Component({
   selector: 'page-artist',
   templateUrl: 'artist.html',
 })
 export class ArtistPage implements OnInit  {
+  
+  loading:any;
 
   artists: any[];
+  private artistsInterna: any[];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,public artistService: ArtistService) {
+  constructor(public navCtrl: NavController,
+     public navParams: NavParams,
+     public loadingCtrl: LoadingController,
+     public artistService: ArtistService) {
+
+
   }
 
   ngOnInit(): void {
-    this.findAll();  
+
+    this.loading = this.loadingCtrl.create({
+      content: 'Por favor espere...'
+    });
 
     
+    this.findAll();    
   }
 
   findAll(): void {
-     this.artistService.findAll().then(artists => this.artists = artists);
+    this.loading.present();
+
+     this.artistService.findAll().then(artists => 
+      {
+        this.artists = artists;
+        this.artistsInterna = this.artists;
+        
+        this.loading.dismissAll();
+      }
+    );
   }
 
   showAlbum(artistId,artistName){
@@ -43,6 +65,24 @@ export class ArtistPage implements OnInit  {
     //TODO: switter plataform, (Mobile o Browser)
     window.open(url);
   }
+
+
+  filter(ev) {
+    // Reset items back to all of the items
+    this.artists = this.artistsInterna;
+
+    // set val to the value of the ev target
+    var val = ev.target.value;
+
+    // if the value is an empty string don't filter the items
+    if (val && val.trim() != '') {
+      this.artists = this.artists.filter((item) => {
+
+        return (item.name.toLowerCase().indexOf(val.toLowerCase()) > -1);
+      })
+    }
+  }
+  
 
   ionViewDidLoad() {
     console.log('Artista Pagina, Cargada');

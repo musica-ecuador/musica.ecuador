@@ -3,6 +3,7 @@ import { Headers, Http, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
 
+import {  AppSettings } from "../../app/settings";
 
 /*
   Generated class for the TrackProvider provider.
@@ -13,12 +14,12 @@ import 'rxjs/add/operator/toPromise';
 @Injectable()
 export class TrackService {
 
-  url: string = 'http://localhost:1337/parse/classes/Track';
+  url: string =  AppSettings.PARSE_SERVER +   '/parse/classes/Track';
   private headers: Headers = new Headers();
 
   constructor(public http: Http) {
     this.headers.append('Content-Type', 'application/json');
-    this.headers.append('X-Parse-Application-Id', '123');
+    this.headers.append('X-Parse-Application-Id', AppSettings.PARSE_APPLICATION_ID);
     console.log('Hello ArtistProvider Provider');
   }
 

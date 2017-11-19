@@ -1,6 +1,9 @@
 import { Component,OnInit } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
+import { LoadingController } from 'ionic-angular';
+
+
 import { TrackPage } from '../track/track'
 
 
@@ -21,19 +24,31 @@ import { ArtistService } from "../../providers/artist/artist";
   templateUrl: 'album.html',
 })
 export class AlbumPage implements OnInit  {
+  
+  private loading:any;
 
   public artistId: string;
   public artistName:string;
   albums: any[];
   artist: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public albumService:AlbumService,public artistService: ArtistService) {
+  constructor(public navCtrl: NavController,
+     public navParams: NavParams,
+     public loadingCtrl: LoadingController, 
+     public albumService:AlbumService,
+     public artistService: ArtistService) {
     this.artistId = this.navParams.get('artistId');
     this.artistName = this.navParams.get('artistName');
     console.log(this.artistId);
   }
 
   ngOnInit(): void {
+    this.loading = this.loadingCtrl.create({
+      content: 'Por favor espere...'
+    });
+
+    this.loading.present();
+    
     //TODO: Chaining Promises
     this.getArtist();
     this.findAll();    
@@ -55,7 +70,10 @@ export class AlbumPage implements OnInit  {
   findAll(): void {
      this.albumService.getAlbums(this.artistId)
      .then()
-     .then(albums => this.albums = albums);
+     .then(albums => {
+        this.albums = albums;
+        this.loading.dismissAll();
+    });
   }
 
   showTrack(albumId,albumName){

@@ -21,7 +21,10 @@
     
     <ion-content padding>
     
+      <ion-searchbar (ionInput)="filter($event)"></ion-searchbar>
     
+     
+
       <ion-card *ngFor="let artist of artists">
         <ion-item>
           <ion-avatar item-start *ngIf="artist?.images">

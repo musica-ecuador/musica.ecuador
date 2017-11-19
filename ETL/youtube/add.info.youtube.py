@@ -5,6 +5,7 @@ import logging
 import re
 
 
+logger = logging.getLogger(__name__)
 
 import sys
 sys.path.append('../')
@@ -59,14 +60,18 @@ def youtube_video_channel_forUsername(youtubeAPI,userName):
 
 def main():
     
+    logging.basicConfig(filename='youtube.log', level=logging.DEBUG)
+
+
     # creating youtube resource object for interacting with API
-    youtubeAPI = build(CONFIG.YOUTUBE_API_SERVICE_NAME, CONFIG.YOUTUBE_API_VERSION,
-                        developerKey=CONFIG.YOUTUBE_DEVELOPER_KEY)
+    youtubeAPI = build(CONFIG.YOUTUBE_API_SERVICE_NAME, CONFIG.YOUTUBE_API_VERSION,   developerKey=CONFIG.YOUTUBE_DEVELOPER_KEY)
 
     data,error = getData() 
  
    
     if data is not None and len(data['results'])>0:
+
+        logger.info('Procesar %d registros' % len(data['results']))
 
         for item in data['results']:
             
@@ -104,12 +109,15 @@ def main():
 
                 resultUpdate,error = parse.updateParseField("Artist",objectId,"youtube",channelInfo)
                 if error is not None:
-                    print("Existe un error %s, para el artista %s" % (error,nameArtist))
+                    logger.error("Existe un error %s, para el artista %s" % (error,nameArtist))
+                    
                 else:
-                    print("Actualizado artista %s, con informacion youtube" % (nameArtist))
+                    logger.info("Actualizado artista %s, con informacion youtube" % (nameArtist))
+                     
             
             else:
-                 print("No existe informacion de youtube. %s" % (nameArtist))
+                logger.info("No existe informacion de youtube. %s" % (nameArtist))
+               
 
 
 if __name__ == "__main__":
