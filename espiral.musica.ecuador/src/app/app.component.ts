@@ -12,6 +12,13 @@ import { ContactPage } from '../pages/contact/contact';
 import { VideoPage } from '../pages/video/video';
 import { YoutubePage } from '../pages/youtube/youtube'
 import { SearchLabPage } from '../pages/search-lab/search-lab'
+import { UserSignupPage } from '../pages/user-signup/user-signup';
+import { UserLoginPage } from '../pages/user-login/user-login';
+
+import { UserDataService } from '../providers/user-data/user-data';
+import { AccountPage } from '../pages/account/account';
+
+
 
 @Component({
   templateUrl: 'app.html'
@@ -23,10 +30,14 @@ export class MyApp {
   
   rootPage:any = HomePage;
 
-  pages: Array<{title: string, component: any, icon: string}>;
+  pages: Array<{title: string, component: any, icon: string, logsOut?: boolean}>;
 
   
-  constructor(public  platform: Platform, public  statusBar: StatusBar, public  splashScreen: SplashScreen) {
+  constructor(public  platform: Platform,
+    public  statusBar: StatusBar, 
+    public  splashScreen: SplashScreen,
+    public userDataService: UserDataService) {
+
     this.initializeApp();
 
      // used for an example of ngFor and navigation
@@ -37,8 +48,12 @@ export class MyApp {
       { title: 'Video', component: VideoPage,icon:'list' },
       { title: 'Youtube', component: YoutubePage,icon:'list' },
       { title: 'Busqueda-Labs', component: SearchLabPage,icon:'list' },
+      { title: 'Registrar Usuario', component: UserSignupPage,icon:'log-out' },
+      { title: 'Ingresar', component: UserLoginPage,icon:'list' },
+      { title: 'Salir', component: HomePage,icon:'list', logsOut: true },
+      { title: 'Perfil', component:AccountPage, icon:'contact'},
       { title: 'Contacto', component:ContactPage, icon:'contact'},
-      { title: 'Acerca', component: AboutPage,icon:'information-circle' }
+      { title: 'Acerca', component: AboutPage,icon:'information-circle' },
     ];
 
     
@@ -72,6 +87,12 @@ export class MyApp {
     // Reset the content nav to have just this page
     // we wouldn't want the back button to show in this scenario
     this.nav.setRoot(page.component);
+
+    if (page.logsOut === true) {
+      // Give the menu time to close before changing to logged out
+      this.userDataService.logout();
+    }
+
   }
 }
 

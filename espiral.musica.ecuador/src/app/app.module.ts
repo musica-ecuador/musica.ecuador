@@ -20,20 +20,26 @@ import { TrackPage } from '../pages/track/track'
 import { VideoPage } from '../pages/video/video'
 import { YoutubePage } from '../pages/youtube/youtube'
 import { SearchLabPage } from '../pages/search-lab/search-lab'
-
+import { UserSignupPage }  from '../pages/user-signup/user-signup';
+import { UserLoginPage } from '../pages/user-login/user-login';
+import { AccountPage } from '../pages/account/account';
 
 import { ArtistService } from '../providers/artist/artist';
 import { AlbumService } from '../providers/album/album';
 import { TrackService } from '../providers/track/track';
 //import { YoutubeService } from '../providers/youtube/youtube';
+import { YoutubeService } from '../providers/youtube/youtube';
+import { UserDataService } from '../providers/user-data/user-data';
+
 
 import { DurationAudioPipe } from '../pipes/duration-audio/duration-audio';
 import { YoutubePipe } from '../pipes/youtube/youtube';
 
-import { YoutubeService } from '../providers/youtube/youtube';
+
 import { YoutubeVideoPlayer } from '@ionic-native/youtube-video-player';
 
- 
+
+import { IonicStorageModule } from '@ionic/storage';
 
 @NgModule({
   declarations: [
@@ -48,7 +54,10 @@ import { YoutubeVideoPlayer } from '@ionic-native/youtube-video-player';
     VideoPage,
     YoutubePage,
     SearchLabPage,
-    
+    UserSignupPage,
+    UserLoginPage,
+    AccountPage,
+
     DurationAudioPipe,
     YoutubePipe
     
@@ -56,7 +65,8 @@ import { YoutubeVideoPlayer } from '@ionic-native/youtube-video-player';
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
-    HttpModule
+    HttpModule,
+    IonicStorageModule.forRoot()
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -70,7 +80,10 @@ import { YoutubeVideoPlayer } from '@ionic-native/youtube-video-player';
     TrackPage,
     VideoPage,
     YoutubePage,
-    SearchLabPage
+    SearchLabPage,
+    UserSignupPage,
+    UserLoginPage,
+    AccountPage
   ],
   providers: [
     StatusBar,
@@ -80,7 +93,8 @@ import { YoutubeVideoPlayer } from '@ionic-native/youtube-video-player';
     AlbumService,
     TrackService,
     YoutubeService,
-    YoutubeVideoPlayer
+    YoutubeVideoPlayer,
+    UserDataService
     //{provide: Window, useValue: window}
   ]
 })

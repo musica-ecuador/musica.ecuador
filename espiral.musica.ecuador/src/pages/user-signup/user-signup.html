@@ -1,0 +1,68 @@
+<!--
+  Generated template for the UserSignupPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>user-signup</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <button ion-button block class="facebookButton"> Facebook</button>
+      </ion-col>
+      <ion-col>
+        <button ion-button block class="instagramButton"> Instagram</button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+
+  <div class="hrLine">
+    <span>Or</span>
+  </div>
+
+  <form #signupForm="ngForm" novalidate>
+      <ion-list no-lines>
+        <ion-item>
+          <ion-label stacked color="primary">Username</ion-label>
+          <ion-input [(ngModel)]="signup.username" name="username" type="text" #username="ngModel" required>
+          </ion-input>
+        </ion-item>
+        <p ion-text [hidden]="username.valid || submitted == false" color="danger" padding-left>
+          Username is required
+        </p>
+  
+        <ion-item>
+          <ion-label stacked color="primary">Password</ion-label>
+          <ion-input [(ngModel)]="signup.password" name="password" type="password" #password="ngModel" required>
+          </ion-input>
+        </ion-item>
+        <p ion-text [hidden]="password.valid || submitted == false" color="danger" padding-left>
+          Password is required
+        </p>
+      </ion-list>
+  
+      <div padding>
+        <button ion-button (click)="onSignup(signupForm)" type="submit" block>Create</button>
+      </div>
+    </form>
+
+
+  <div padding>
+    <button ion-button block color="light" clear (click)="loginPage();">If already have an account ? LOGIN</button>
+    <button ion-button block color="light" clear (click)="forgotPasswordPage();">Forgot Password</button>
+  </div>
+</ion-content>
