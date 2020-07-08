@@ -3,5 +3,7 @@ Base de datos de musicos ecuatorianos, informacion de musicos, albunes, cancione
 
 
 Utiliza 
-ionicframework
-Parseplatform
+- ionicframework. (FrontEnd)
+- Parseplatform. (Backend as a service (BaaS))
+- Scrapy spiders
+ 
